@@ -1,0 +1,47 @@
+[build-system]
+requires = ["setuptools>=61"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "tts_eu_pt"
+version = "0.1.0"
+description = "A permissively-licensed European Portuguese (pt-PT) text-to-speech voice, fine-tuned from Kokoro-82M."
+readme = "README.md"
+requires-python = ">=3.10"
+license = { text = "Apache-2.0" }
+keywords = ["tts", "text-to-speech", "portuguese", "pt-pt", "european-portuguese", "kokoro", "speech-synthesis"]
+classifiers = [
+    "License :: OSI Approved :: Apache Software License",
+    "Programming Language :: Python :: 3",
+    "Topic :: Multimedia :: Sound/Audio :: Speech",
+    "Natural Language :: Portuguese",
+]
+dependencies = [
+    "torch>=2.1",
+    "numpy",
+    "soundfile",
+    "transformers>=4.40",
+    "huggingface_hub>=0.23",
+    "loguru",
+    # European-Portuguese G2P front-end (Apache-2.0). The sub-regional lects (pt-PT-x-lisbon)
+    # require the 1.2 alpha or newer; the older stable release silently ignores them.
+    "tugaphone>=1.2.0a1",
+    "num2words",
+]
+
+[project.optional-dependencies]
+# For examples/server.py (the web-echo demo backend).
+server = ["fastapi", "uvicorn[standard]"]
+
+[project.urls]
+Homepage = "https://github.com/CHANGEME/tts_eu_pt"
+Source = "https://github.com/CHANGEME/tts_eu_pt"
+
+[project.scripts]
+tts-eu-pt = "examples.cli:main"
+
+[tool.setuptools]
+packages = ["tts_eu_pt", "tts_eu_pt.kokoro"]
+
+[tool.setuptools.package-data]
+tts_eu_pt = ["assets/*.json"]

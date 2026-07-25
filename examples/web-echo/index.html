@@ -1,0 +1,28 @@
+<!doctype html>
+<html lang="pt-PT">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>tts_eu_pt — voice echo</title>
+  <style>
+    :root { color-scheme: light dark; }
+    body { font-family: system-ui, sans-serif; max-width: 640px; margin: 12vh auto; padding: 0 20px;
+           display: flex; flex-direction: column; gap: 16px; }
+    h1 { font-size: 22px; margin: 0; }
+    p  { margin: 0; color: #666; font-size: 14px; }
+    input { font-size: 18px; padding: 12px 14px; border: 1px solid #bbb; border-radius: 10px; width: 100%; box-sizing: border-box; }
+    .status { font-size: 13px; color: #888; min-height: 18px; }
+    footer { font-size: 12px; color: #999; margin-top: 8px; }
+    a { color: inherit; }
+  </style>
+</head>
+<body>
+  <h1>🇵🇹 tts_eu_pt — voice echo</h1>
+  <p>Escreve uma frase e carrega <b>Enter</b>. A página fala o que escreveste, em português europeu.</p>
+  <input id="text" autofocus autocomplete="off" spellcheck="false"
+         placeholder="Ex.: Olá! São dezasseis horas.">
+  <div class="status" id="status"></div>
+  <footer>Powered by <a href="https://github.com/CHANGEME/tts_eu_pt">tts_eu_pt</a> · Kokoro-82M (Apache-2.0) · TugaPhone (Apache-2.0)</footer>
+  <script src="/static/app.js"></script>
+</body>
+</html>

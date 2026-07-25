@@ -1,0 +1,13 @@
+tts_eu_pt
+Copyright 2026 tts_eu_pt authors
+
+This product includes software developed as part of the Kokoro project
+(https://github.com/hexgrad/kokoro, Apache-2.0) — the acoustic model code vendored under
+tts_eu_pt/kokoro/. The model weights are fine-tuned from Kokoro-82M
+(https://huggingface.co/hexgrad/Kokoro-82M, Apache-2.0). The Kokoro architecture derives
+from StyleTTS2 (https://github.com/yl4579/StyleTTS2, MIT).
+
+European-Portuguese grapheme-to-phoneme conversion uses TugaPhone
+(https://github.com/TigreGotico/tugaphone, Apache-2.0).
+
+See ATTRIBUTIONS.md for the full list of components and licenses.

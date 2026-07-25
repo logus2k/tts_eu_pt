@@ -1,0 +1,21 @@
+# Python
+__pycache__/
+*.py[cod]
+*.egg-info/
+build/
+dist/
+.venv/
+venv/
+
+# Model weights are hosted on Hugging Face, never committed to git (>100 MB).
+*.pth
+*.pt
+
+# Generated audio
+*.wav
+out.wav
+
+# OS / editor
+.DS_Store
+.idea/
+.vscode/

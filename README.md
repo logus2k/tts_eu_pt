@@ -40,8 +40,14 @@ tts.save("ola.wav", "Bem-vindo ao tts_eu_pt.")
 Command line:
 
 ```bash
-python -m examples.cli "D. Afonso I reinou de 1139 a 1185." reis.wav
+tts-eu-pt "D. Afonso I reinou de 1139 a 1185." reis.wav
+tts-eu-pt --text "Bom dia." --speed 1.1 ola.wav      # or python -m tts_eu_pt.cli
 ```
+
+The voice (~313 MB) downloads once from
+[`logus2k/kokoro_tts_eu_pt`](https://huggingface.co/logus2k/kokoro_tts_eu_pt) and is cached
+by `huggingface_hub`. To run offline or from a different copy, pass
+`TTS(model_path=..., voicepack_path=...)` or set `TTS_EU_PT_REPO`.
 
 ## Web echo demo
 
@@ -49,11 +55,13 @@ A one-page demo: type a sentence, press Enter, the page speaks it back in Europe
 
 ```bash
 pip install "tts_eu_pt[server]"
-python -m examples.server            # open http://localhost:8000
+python -m tts_eu_pt.server            # open http://localhost:8000
 ```
 
-See [`examples/web-echo/`](examples/web-echo/) — a static page plus a ~50-line FastAPI
-backend (browsers can't run the torch model directly).
+A static page ([`tts_eu_pt/web/`](tts_eu_pt/web/)) plus a ~50-line FastAPI backend
+([`tts_eu_pt/server.py`](tts_eu_pt/server.py)) — browsers can't run the torch model
+directly. To run it against local weights, set `TTS_EU_PT_MODEL` and
+`TTS_EU_PT_VOICEPACK`; `PORT` overrides the default 8000.
 
 ## How it works
 

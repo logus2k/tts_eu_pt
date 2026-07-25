@@ -30,7 +30,7 @@ dependencies = [
 ]
 
 [project.optional-dependencies]
-# For examples/server.py (the web-echo demo backend).
+# For tts_eu_pt/server.py (the web-echo demo backend).
 server = ["fastapi", "uvicorn[standard]"]
 
 [project.urls]
@@ -38,10 +38,14 @@ Homepage = "https://github.com/CHANGEME/tts_eu_pt"
 Source = "https://github.com/CHANGEME/tts_eu_pt"
 
 [project.scripts]
-tts-eu-pt = "examples.cli:main"
+# Must point INSIDE the package: a script target that is not in [tool.setuptools].packages
+# installs fine and then dies at run time with ModuleNotFoundError.
+tts-eu-pt = "tts_eu_pt.cli:main"
 
 [tool.setuptools]
 packages = ["tts_eu_pt", "tts_eu_pt.kokoro"]
 
 [tool.setuptools.package-data]
-tts_eu_pt = ["assets/*.json"]
+# The web-echo page is served by tts_eu_pt.server from the installed package, so it has to
+# ship in the wheel alongside the JSON assets.
+tts_eu_pt = ["assets/*.json", "web/*"]

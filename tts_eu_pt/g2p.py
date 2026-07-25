@@ -6,13 +6,17 @@ on it. The project's goal is unrestricted commercial reuse, so espeak must go.
 TugaPhone is Apache-2.0 and won an objective bake-off against espeak on a neutral
 Wiktionary reference (PER 0.0994 vs 0.1147, n=30).
 
-CRITICAL — INSTALL THE DEV BRANCH:
-    pip install "git+https://github.com/TigreGotico/tugaphone.git@dev"
-  The PyPI release SILENTLY IGNORES every sub-regional lect: "pt-PT-x-lisbon",
-  "pt-PT-x-porto" and even nonsense strings all return generic pt-PT output.
-  get_dialect_inventory() only branches on pt-BR/AO/MZ/TL and defaults everything else
-  to EuropeanPortuguese(). LisbonPortuguese ships as unreachable dead code.
-  This module refuses to run on that release -- see assert_dev_branch().
+CRITICAL — THE TUGAPHONE VERSION MATTERS:
+  Sub-regional lects need tugaphone >= 1.2.0a1 (pinned in pyproject.toml). On the OLDER
+  STABLE release, get_dialect_inventory() only branched on pt-BR/AO/MZ/TL and defaulted
+  everything else to EuropeanPortuguese(), so "pt-PT-x-lisbon", "pt-PT-x-porto" and even
+  nonsense strings all returned generic pt-PT output and LisbonPortuguese was unreachable
+  dead code. That fix has since shipped to PyPI, so the dev branch is no longer required:
+  measured on 1.2.0a1, "pt-PT-x-lisbon" -> "u ˈviɲu ˈveɾd" vs generic "o ˈviɲu ˈveɾd".
+  assert_lect_support() enforces this at run time, whatever release is installed.
+
+  CAVEAT: an UNKNOWN lect string still falls back to generic pt-PT silently rather than
+  raising, so a typo in LECT degrades quality without any error.
 
 LECT: pt-PT-x-lisbon. TugaPhone's own scoreboard puts it far ahead of generic pt-PT
 (PER 0.1007 vs 0.2294; word accuracy 0.4330 vs 0.1540).
@@ -55,17 +59,26 @@ class UnmappedSymbol(ValueError):
     dropped by kokoro's vocab.get(p) at inference time."""
 
 
-def assert_dev_branch() -> None:
-    """Fail fast if the installed tugaphone ignores lects (i.e. the PyPI release)."""
+def assert_lect_support() -> None:
+    """Fail fast if the installed tugaphone ignores sub-regional lects.
+
+    Probes behaviour rather than the version string, so it stays correct no matter which
+    release or branch is installed.
+    """
     tp = _get()
     a = tp.phonemize_sentence("o vinho verde", "pt-PT")
     b = tp.phonemize_sentence("o vinho verde", "pt-PT-x-porto")
     if a == b:
         raise RuntimeError(
-            "Installed tugaphone ignores sub-regional lects (PyPI release). "
-            "Install the dev branch:\n"
-            '  pip install "git+https://github.com/TigreGotico/tugaphone.git@dev"'
+            "The installed tugaphone ignores sub-regional lects, so "
+            f"{LECT} would silently degrade to generic pt-PT. Upgrade:\n"
+            '  pip install "tugaphone>=1.2.0a1"'
         )
+
+
+# Former name, kept so existing callers keep working. The check is no longer about a
+# branch -- the lect fix shipped to PyPI in 1.2.0a1.
+assert_dev_branch = assert_lect_support
 
 
 def _get():
@@ -445,7 +458,7 @@ def text_to_input_ids(text: str) -> tuple[str, list[int]]:
 
 
 if __name__ == "__main__":
-    assert_dev_branch()
+    assert_lect_support()
     for t in ["Bom dia. Chamo-me Teodoro e vivo em Lisboa.", "Custa 1234 euros."]:
         ps, ids = text_to_input_ids(t)
         print(f"{t}\n  -> {ps}\n  -> {len(ids)} ids\n")

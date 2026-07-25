@@ -2,10 +2,7 @@
 
 A small, **permissively-licensed** (Apache-2.0) **European Portuguese (pt-PT)** voice,
 fine-tuned from [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M). It runs on **CPU**,
-ships as a tiny Python package, and — unlike most open TTS — comes with a real
-**European-Portuguese text front-end**, not just a phonemizer.
-
-> Brazilian pt-BR is out of scope: this is a genuinely *European* Portuguese voice.
+ships as a tiny Python package.
 
 ## Why it's different
 
@@ -22,7 +19,7 @@ speaker actually does. `tts_eu_pt` handles, out of the box:
 | `online`, `software` | kept in their English pronunciation (as Portuguese speakers say them) |
 
 The G2P is built on the Apache-2.0 [TugaPhone](https://github.com/TigreGotico/tugaphone)
-front-end (Lisbon lect) — **no GPL espeak-ng at runtime**.
+front-end (Lisbon lect).
 
 ## Install
 
@@ -35,8 +32,8 @@ pip install tts_eu_pt
 ```python
 from tts_eu_pt import TTS
 
-tts = TTS()                                   # downloads the voice on first run
-wav = tts.say("Olá! São dezasseis horas.")    # numpy float32 @ 24 kHz
+tts = TTS()                                       # downloads the voice on first run
+wav = tts.say("Olá! São dezasseis horas.")        # numpy float32 @ 24 kHz
 tts.save("ola.wav", "Bem-vindo ao tts_eu_pt.")
 ```
 
@@ -52,7 +49,7 @@ A one-page demo: type a sentence, press Enter, the page speaks it back in Europe
 
 ```bash
 pip install "tts_eu_pt[server]"
-python -m examples.server        # open http://localhost:8000
+python -m examples.server            # open http://localhost:8000
 ```
 
 See [`examples/web-echo/`](examples/web-echo/) — a static page plus a ~50-line FastAPI
@@ -69,10 +66,8 @@ backend (browsers can't run the torch model directly).
 
 ## Licensing
 
-Apache-2.0. Everything required at runtime is permissively licensed — see
-[ATTRIBUTIONS.md](ATTRIBUTIONS.md). espeak-ng (GPL) is used **only offline** to precompute a
-loanword pronunciation table; its phonemes ship as data, the tool does not.
+Apache-2.0.
 
 ## Status
 
-Early release: the runtime + SDK + examples. Training pipeline and data are not included.
+Early release: the runtime + SDK + examples.

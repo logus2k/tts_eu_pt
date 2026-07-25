@@ -1,4 +1,4 @@
-# tts_eu_pt — European Portuguese text-to-speech
+# tts_eu_pt - an European Portuguese text-to-speech based on Kokoro TTS
 
 A small, **permissively-licensed** (Apache-2.0) **European Portuguese (pt-PT)** voice,
 fine-tuned from [Kokoro-82M](https://huggingface.co/hexgrad/Kokoro-82M). It runs on **CPU**,

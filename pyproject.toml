@@ -13,7 +13,13 @@ authors = [{ name = "Antonio Cruz", email = "logus2k@gmail.com" }]
 maintainers = [{ name = "Antonio Cruz", email = "logus2k@gmail.com" }]
 keywords = ["tts", "text-to-speech", "portuguese", "pt-pt", "european-portuguese", "kokoro", "speech-synthesis"]
 classifiers = [
+    # "Early release" per the README -- Alpha, not Beta.
+    "Development Status :: 3 - Alpha",
+    "Intended Audience :: Developers",
     "License :: OSI Approved :: Apache Software License",
+    "Operating System :: OS Independent",
+    # Only "Python :: 3" -- no per-minor classifiers, since the package has been exercised
+    # on 3.12 alone. requires-python already advertises the >=3.10 floor.
     "Programming Language :: Python :: 3",
     "Topic :: Multimedia :: Sound/Audio :: Speech",
     "Natural Language :: Portuguese",

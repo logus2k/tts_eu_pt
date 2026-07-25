@@ -9,6 +9,8 @@ description = "A permissively-licensed European Portuguese (pt-PT) text-to-speec
 readme = "README.md"
 requires-python = ">=3.10"
 license = { text = "Apache-2.0" }
+authors = [{ name = "Antonio Cruz", email = "logus2k@gmail.com" }]
+maintainers = [{ name = "Antonio Cruz", email = "logus2k@gmail.com" }]
 keywords = ["tts", "text-to-speech", "portuguese", "pt-pt", "european-portuguese", "kokoro", "speech-synthesis"]
 classifiers = [
     "License :: OSI Approved :: Apache Software License",
@@ -34,8 +36,8 @@ dependencies = [
 server = ["fastapi", "uvicorn[standard]"]
 
 [project.urls]
-Homepage = "https://github.com/CHANGEME/tts_eu_pt"
-Source = "https://github.com/CHANGEME/tts_eu_pt"
+Homepage = "https://github.com/logus2k/tts_eu_pt"
+Source = "https://github.com/logus2k/tts_eu_pt"
 
 [project.scripts]
 # Must point INSIDE the package: a script target that is not in [tool.setuptools].packages

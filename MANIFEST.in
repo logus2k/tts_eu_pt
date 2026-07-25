@@ -1,0 +1,13 @@
+# Files that must travel in the source distribution.
+#
+# NOTICE points readers at ATTRIBUTIONS.md, and ATTRIBUTIONS.md points at LICENSE.kokoro
+# (the Apache-2.0 text for the vendored Kokoro acoustic model). Without these lines the
+# sdist ships those pointers with nothing on the other end.
+include ATTRIBUTIONS.md
+include LICENSE
+include LICENSE.kokoro
+include NOTICE
+include README.md
+recursive-include tts_eu_pt/assets *.json
+recursive-include tts_eu_pt/web *
+recursive-include tests *.py

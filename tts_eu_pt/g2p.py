@@ -329,14 +329,33 @@ def _normalize_separator_dashes(text: str) -> str:
     return text
 
 
+def _normalize_number_separators(text: str) -> str:
+    """European number formatting, handled BEFORE the '.'/',' splitter would break it:
+    "." groups thousands and is dropped (92.073 -> 92073 -> "noventa e dois mil e setenta e
+    três"); "," is the decimal mark, spoken "vírgula" (10,4 -> "dez vírgula quatro").
+    Char-scan (no regex): only a separator BETWEEN two digits is touched, so sentence-final
+    periods and list commas keep their pause."""
+    n = len(text)
+    out = []
+    for i, ch in enumerate(text):
+        between = 0 < i < n - 1 and text[i - 1].isdigit() and text[i + 1].isdigit()
+        if between and ch == ".":
+            continue                       # thousands separator -> drop
+        if between and ch == ",":
+            out.append(" vírgula ")        # decimal mark -> spoken word
+            continue
+        out.append(ch)
+    return "".join(out)
+
+
 def normalize_text(text: str) -> str:
     """Text-level normalisation applied BEFORE phonemization or any '.'-based sentence
-    splitting: separator dashes (" – " -> ", "), acronyms (IA -> 'i á'), honorific
-    abbreviations (D. -> Dom) and regnal numerals (Afonso I -> Afonso Primeiro). Idempotent,
-    so it is safe to call more than once (the TTS server calls it before its streaming
-    split; phonemize() calls it too)."""
-    return _expand_regnal_numerals(_expand_acronyms(
-        _normalize_separator_dashes(_split_time_colons(_expand_clock_times(text)))))
+    splitting: number separators (92.073 / 10,4), separator dashes (" – " -> ", "), acronyms
+    (IA -> 'i á'), honorific abbreviations (D. -> Dom) and regnal numerals (Afonso I ->
+    Afonso Primeiro). Idempotent, so it is safe to call more than once (the TTS server calls
+    it before its streaming split; phonemize() calls it too)."""
+    return _expand_regnal_numerals(_expand_acronyms(_normalize_separator_dashes(
+        _split_time_colons(_expand_clock_times(_normalize_number_separators(text))))))
 
 
 def _raw_phonemize(text: str, lect: str) -> str:

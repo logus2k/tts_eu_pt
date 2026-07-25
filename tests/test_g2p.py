@@ -44,6 +44,12 @@ def test_acronyms_letter_names_punctuation_tolerant():
     assert _norm("São 16:00 UTC.") == "São 16 horas u tê cê."
 
 
+def test_european_number_separators():
+    # "." = thousands (dropped); "," = decimal (spoken "vírgula")
+    assert g2p.normalize_numbers(_norm("92.073")) == "noventa e dois mil e setenta e três"
+    assert g2p.normalize_numbers(_norm("10,4")) == "dez vírgula quatro"
+
+
 def test_word_hyphens_untouched():
     assert _norm("chamo-me Teodoro") == "chamo-me Teodoro"
 

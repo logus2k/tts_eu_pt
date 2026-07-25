@@ -24,7 +24,7 @@ from .download import ensure_weights
 
 SAMPLE_RATE = 24000
 _MAX_PHONEMES = 510          # Kokoro caps input at 510 tokens (kokoro/model.py)
-__version__ = "0.1.0"
+__version__ = "0.1.1"
 __all__ = ["TTS", "SAMPLE_RATE"]
 
 

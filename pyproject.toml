@@ -4,7 +4,7 @@ build-backend = "setuptools.build_meta"
 
 [project]
 name = "tts_eu_pt"
-version = "0.1.0"
+version = "0.1.1"
 description = "A permissively-licensed European Portuguese (pt-PT) text-to-speech voice, fine-tuned from Kokoro-82M."
 readme = "README.md"
 requires-python = ">=3.10"

@@ -59,6 +59,38 @@ def test_date_range_reads_as_a():
     assert "1139 a 1185" in g2p.normalize_numbers(_norm("(1139-1185)"))
 
 
+# Every phoneme token must contain a vowel: Portuguese cannot realise a bare consonant
+# cluster, and the decoder emits noise instead of speech when handed one.
+_VOWELS = set("aeiouɐɛɔəɨʊɪœøɤɯæɑɒ")
+
+
+def _every_token_has_a_vowel(ps: str) -> bool:
+    return all(any(c in _VOWELS for c in tok)
+               for tok in ps.split() if tok.strip('.,;:!?…"()“”'))
+
+
+def test_package_name_is_pronounceable():
+    # 0.1.0 shipped "tts_eu_pt" -> 'ˈttz ˈew ˈpt' (no vowels), which came out as noise.
+    for name in ("tts_eu_pt", "tts-eu-pt"):
+        ps = g2p.phonemize(f"Bem-vindo ao {name}.")
+        assert _every_token_has_a_vowel(ps), f"{name} -> {ps}"
+        assert "ˈte ˈte ˈɛsɨ" in ps, ps
+
+
+def test_bare_acronyms_spelled_as_letters():
+    assert _every_token_has_a_vowel(g2p.phonemize("Uso TTS em PT."))
+
+
+def test_lowercase_eu_stays_the_pronoun():
+    # "eu" is a real word; it must NOT become letter names.
+    assert g2p.phonemize("eu vou a Lisboa").startswith("ˈew")
+
+
+def test_existing_acronyms_do_not_regress():
+    ps = g2p.phonemize("A IA e os LLM às 16:00 UTC.")
+    assert "ˈi ˈa" in ps and "ˈɛlɨ ˈɛlɨ ˈɛmɨ" in ps and "ˈu ˈte ˈse" in ps
+
+
 def test_phonemes_tokenise_without_unmapped_symbols():
     ps = g2p.phonemize("Olá! São dezasseis horas. D. Afonso I.")
     ids = g2p.phonemes_to_input_ids(ps)   # raises UnmappedSymbol on anything off-vocab

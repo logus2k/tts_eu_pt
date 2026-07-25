@@ -204,7 +204,20 @@ def _phon_one(text: str, lect: str) -> str:
 # (L = ˈɛlɨ, not the pronoun "ele" ˈel). The trailing comma injects a pause so the last
 # letter does not merge into the next word. Expanded at the TEXT level (see phonemize) so
 # the comma becomes a real KEEP_PUNCT pause token.
-_ACRONYMS = {"IA": "i á,", "LLM": "éle éle éme,", "UTC": "u tê cê,"}
+_ACRONYMS = {
+    "IA": "i á,", "LLM": "éle éle éme,", "UTC": "u tê cê,",
+    # The project's own name. Left raw, TugaPhone returns vowel-less clusters that
+    # Portuguese phonotactics cannot realise -- "tts" -> ˈttʃ and "pt" -> ˈpt -- and the
+    # decoder emits noise rather than speech. Confirmed by ear on 0.1.0.
+    "tts_eu_pt": "tê tê ésse eu pê tê,",
+    "tts-eu-pt": "tê tê ésse eu pê tê,",
+    "TTS": "tê tê ésse,", "tts": "tê tê ésse,",
+    "PT": "pê tê,",
+    # NOTE: keys are matched case-SENSITIVELY on purpose. Lowercase "eu" is the pronoun
+    # ("eu vou") and lowercase "ia" is a verb form ("ele ia"); mapping those to letter
+    # names would corrupt ordinary text. Only add a lowercase key when the token is not
+    # also a real Portuguese word -- "tts" qualifies, "eu" does not.
+}
 
 # Abbreviations expanded to full words at the TEXT level (before punctuation splitting,
 # so the trailing "." is consumed here instead of becoming a sentence pause and the letter

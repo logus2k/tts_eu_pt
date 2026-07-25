@@ -18,7 +18,7 @@ speaker actually does. `tts_eu_pt` handles, out of the box:
 | `IA`, `LLM`, `UTC` | *i-á*, *éle-éle-éme*, *u-tê-cê* |
 | `online`, `software` | kept in their English pronunciation (as Portuguese speakers say them) |
 
-The G2P is built on the Apache-2.0 [TugaPhone](https://github.com/TigreGotico/tugaphone)
+The G2P (Grapheme-to-Phoneme) is built on the Apache-2.0 [TugaPhone](https://github.com/TigreGotico/tugaphone)
 front-end (Lisbon lect).
 
 ## Install
